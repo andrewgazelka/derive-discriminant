@@ -1,3 +1,6 @@
+# derive-discriminant
+[![Crates.io](https://img.shields.io/crates/v/derive-discriminant.svg?style=plastic)](http://crates.io/crates/derive-discriminant)
+
 ```rust
 #[derive(Discriminant)]
 #[derive(Debug, PartialEq, Eq)]
