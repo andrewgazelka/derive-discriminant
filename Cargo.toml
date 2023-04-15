@@ -1,6 +1,6 @@
 [package]
 name = "derive-discriminant"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Andrew Gazelka <andrew.gazelka@gmail.com>"]
 description = "A derive macro for enum discriminants"

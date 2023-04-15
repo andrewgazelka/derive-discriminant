@@ -6,7 +6,7 @@ use derive_discriminant::Discriminant;
 
 #[derive(Discriminant)]
 #[derive(Debug, PartialEq, Eq)]
-enum Abc {
+pub enum Abc {
     A,
     B { x: usize, y: usize },
 }

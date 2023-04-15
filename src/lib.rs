@@ -13,6 +13,7 @@ pub fn discriminant_derive(input: TokenStream) -> TokenStream {
 #[allow(clippy::too_many_lines)] // TODO: fix too_many_lines allow
 fn impl_discriminant_macro(ast: DeriveInput) -> TokenStream {
     let name = &ast.ident;
+    let vis = &ast.vis;
 
     // all non-doc attributes
     let global_attrs: Vec<_> = ast
@@ -35,7 +36,7 @@ fn impl_discriminant_macro(ast: DeriveInput) -> TokenStream {
     // this requires nightly
     let cast_method = quote! {
         impl #name {
-            fn cast<U: ?Sized>(self) -> Box<U> where #(#variant_names: ::core::marker::Unsize<U>),* {
+            #vis fn cast<U: ?Sized>(self) -> Box<U> where #(#variant_names: ::core::marker::Unsize<U>),* {
                 let value = self;
                 // TODO: use a singular match expression
                 #(
@@ -86,14 +87,14 @@ fn impl_discriminant_macro(ast: DeriveInput) -> TokenStream {
                     }
 
                     impl #name {
-                        pub fn #is_variant_name(&self) -> bool {
+                        #vis fn #is_variant_name(&self) -> bool {
                             matches!(self, Self::#variant_name)
                         }
                     }
 
                     #(#global_attrs)*
                     #(#variant_attrs)*
-                    struct #variant_name;
+                    #vis struct #variant_name;
                 }
             }
             _ => {
@@ -124,15 +125,15 @@ fn impl_discriminant_macro(ast: DeriveInput) -> TokenStream {
                     }
 
                     impl #name {
-                        pub fn #is_variant_name(&self) -> bool {
+                        #vis fn #is_variant_name(&self) -> bool {
                             matches!(self, Self::#variant_name { .. })
                         }
                     }
 
                     #(#global_attrs)*
                     #(#variant_attrs)*
-                    struct #variant_name {
-                        #(#field_name: #field_type),*
+                    #vis struct #variant_name {
+                        #(#vis #field_name: #field_type),*
                     }
                 }
             }
